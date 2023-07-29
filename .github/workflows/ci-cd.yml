@@ -26,15 +26,13 @@ jobs:
           
       - name: SSH into your server and deploy
         run: |
-          # Указываем ваш passphrase
           SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
 
-          # Создаем временный файл с вашим приватным ключом
           echo "${{ secrets.SERVER_SSH_PRIVATE_KEY }}" > ssh_key
           chmod 600 ssh_key
 
-          # Команда для подключения к серверу с использованием sshpass и передачей passphrase
           sshpass -p "$SSH_PASSPHRASE" ssh -o StrictHostKeyChecking=no -i ssh_key ${{ secrets.SERVER_SSH_USERNAME }}@${{ secrets.SERVER_IP }} 'bash -s' << EOF
+            export TOKEN="${{ secrets.SSH_TOKEN }}"
             docker stop aml-api || true
             docker rm aml-api || true
             docker pull undefinedaml/aml-api
