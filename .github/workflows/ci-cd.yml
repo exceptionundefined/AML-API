@@ -23,15 +23,24 @@ jobs:
         run: |
           docker build -t undefinedaml/aml-api .
           docker push undefinedaml/aml-api
-
+          
       - name: SSH into your server and deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_SSH_USERNAME }}
-          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
-          script: |
-            docker stop AML-API || true
-            docker rm AML-API || true
+        run: |
+          # Указываем ваш passphrase
+          SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
+
+          # Создаем временный файл с вашим приватным ключом
+          echo "${{ secrets.SERVER_SSH_PRIVATE_KEY }}" > ssh_key
+          chmod 600 ssh_key
+
+          # Команда для подключения к серверу с использованием sshpass и передачей passphrase
+          sshpass -p "$SSH_PASSPHRASE" ssh -o StrictHostKeyChecking=no -i ssh_key ${{ secrets.SERVER_SSH_USERNAME }}@${{ secrets.SERVER_IP }} 'bash -s' << EOF
+            docker stop aml-api || true
+            docker rm aml-api || true
             docker pull undefinedaml/aml-api
-            docker run -d -p 3001:3001 --name AML-API undefinedaml/aml-api
+            docker run -d -p 3001:3001 --name aml-api undefinedaml/aml-api
+          EOF
+
+          rm ssh_key
+
+     
