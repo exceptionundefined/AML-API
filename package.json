@@ -1,0 +1,11 @@
+{
+  "name": "AML-API",
+  "version": "1.0.0",
+  "description": "this api for commuticate B2B API for explore crypto transactions",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "open source team",
+  "license": "MIT"
+}
