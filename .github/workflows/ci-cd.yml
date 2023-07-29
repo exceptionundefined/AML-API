@@ -21,8 +21,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t undefinedaml/AML-API .
-          docker push undefinedaml/AML-API
+          docker build -t undefinedaml/aml-api .
+          docker push undefinedaml/aml-api
 
       - name: SSH into your server and deploy
         uses: appleboy/ssh-action@master
@@ -33,5 +33,5 @@ jobs:
           script: |
             docker stop AML-API || true
             docker rm AML-API || true
-            docker pull undefinedaml/AML-API
-            docker run -d -p 3001:3001 --name AML-API undefinedaml/AML-API
+            docker pull undefinedaml/aml-api
+            docker run -d -p 3001:3001 --name AML-API undefinedaml/aml-api
