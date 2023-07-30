@@ -1,3 +1,4 @@
+import './boilerplate.polyfill';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -19,6 +20,7 @@ import { eventStoreBusConfig } from './providers/event-bus.provider';
             configService.typeOrmConfig,
         inject: [ConfigService],
     }),
+    
   //   EventStoreCqrsModule.forRootAsync(
   //     {
   //         useFactory: async (config: ConfigService) => {
