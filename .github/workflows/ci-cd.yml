@@ -31,7 +31,16 @@ jobs:
           username: ${{ secrets.SERVER_SSH_USERNAME }}
           key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           script: |
+            # .env
+            echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" > .env
+            echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> .env
+            echo "MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }}" > .env
+            echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
+            echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" > .env
+            # .env end
             docker stop aml-api || true
             docker rm aml-api || true
             docker pull undefinedaml/aml-api
-            docker run -d -p 3001:3001 --name aml-api undefinedaml/aml-api
+            docker run -d -p 3001:3001 --name aml-api --env-file .env undefinedaml/aml-api
+            
+            rm .env
