@@ -73,21 +73,7 @@ export class ConfigService {
                 return migration;
             });
         }
-console.log({
-    entities,
-    migrations,
-    keepConnectionAlive: true,
-    type: 'postgres',
 
-    host: this.get('MYSQL_HOST'),
-    port: this.getNumber('MYSQL_PORT'),
-    username: this.get('MYSQL_USERNAME'),
-    password: this.get('MYSQL_PASSWORD'),
-    database: this.get('MYSQL_DATABASE'),
-    migrationsRun: true,
-    logging: this.nodeEnv === 'development',
-    namingStrategy: new SnakeNamingStrategy(),
-})
         return {
             entities,
             migrations,
