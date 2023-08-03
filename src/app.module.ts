@@ -9,9 +9,12 @@ import { SharedModule } from './shared.module';
 import { TerminusModule } from '@nestjs/terminus';
 import { EventStoreCqrsModule } from 'nestjs-eventstore';
 import { eventStoreBusConfig } from './providers/event-bus.provider';
+import { CoinModule } from './modules/coin/coin.module';
+
 
 @Module({
   imports: [
+    CoinModule,
     UsersModule,
     TerminusModule,
     TypeOrmModule.forRootAsync({
@@ -20,6 +23,7 @@ import { eventStoreBusConfig } from './providers/event-bus.provider';
             configService.typeOrmConfig,
         inject: [ConfigService],
     }),
+
     
   //   EventStoreCqrsModule.forRootAsync(
   //     {

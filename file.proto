@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package coin; // Пакет (namespace) для gRPC определений
+
+// Определение сообщения для данных, передаваемых в методах
+message Task {
+  string taskId = 1;
+  string title = 2;
+  string description = 3;
+}
+
+// Определение сервиса
+service CoinService {
+  // Метод для добавления задачи
+  rpc addTask(Task) returns (Task);
+
+  // Другие методы для взаимодействия с микросервисом (если есть)
+}
